@@ -1,5 +1,6 @@
 package com.monsalachai.rpginitiative;
 
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +25,8 @@ public class MainActivity extends AppCompatActivity implements CharacterInfoFrag
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
-
 
         ArrayList<CharacterItem> items = getBasicData();
 
@@ -43,13 +43,24 @@ public class MainActivity extends AppCompatActivity implements CharacterInfoFrag
         Log.i("fragment", "item " + item);
     }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private ArrayList<CharacterItem> getBasicData()
     {
         ArrayList<CharacterItem> items = new ArrayList<>();
-
+        
         items.add(new CharacterItem("Balinope", 12));
         items.add(new CharacterItem("Broot", 3));
         items.add(new CharacterItem("Zinfandel", 5));
+        items.add(new CharacterItem("Ezreal", 4));
         items.add(new CharacterItem("JimmyJohn", 17));
         items.add(new CharacterItem("Shoeshine", 8));
         items.add(new CharacterItem("Snek", 2));
