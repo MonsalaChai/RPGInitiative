@@ -1,17 +1,21 @@
 package com.monsalachai.rpginitiative;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.view.View;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
+import com.monsalachai.rpginitiative.ui.main.MainFragment;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private ArrayList<CharacterItem> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +31,23 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        ArrayList<CharacterItem> items = getBasicData();
+        mItems = getBasicData();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    //.replace(R.id.container, MainFragment.newInstance())
-                    .replace(R.id.container, CharacterInfoFragment.newInstance(1, items))
+                    .replace(R.id.container, MainFragment.newInstance())
+                    //.replace(R.id.container, CharacterInfoFragment.newInstance(1, items))
                     .commitNow();
         }
+    }
+
+    private void startFight()
+    {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.container, CharacterInfoFragment.newInstance(1, mItems));
+
+        transaction.commit();
     }
 
     @Override
@@ -60,5 +73,10 @@ public class MainActivity extends AppCompatActivity {
         items.add(new CharacterItem("Snek", 2));
 
         return items;
+    }
+
+    @Override
+    public void onClick(View v) {
+        startFight();
     }
 }

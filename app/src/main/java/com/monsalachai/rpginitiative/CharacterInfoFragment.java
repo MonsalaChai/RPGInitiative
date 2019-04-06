@@ -29,7 +29,6 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     private static final String ARG_ITEMS = "character-items";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
 
     private List<CharacterItem> mItems;
     private MyCharacterInfoRecyclerViewAdapter mAdapter;
@@ -96,7 +95,6 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     // The fragment itself will manage the changes to the view. If there is anything that needs to
