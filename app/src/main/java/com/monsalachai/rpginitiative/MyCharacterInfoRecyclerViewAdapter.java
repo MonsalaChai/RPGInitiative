@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.monsalachai.rpginitiative.CharacterInfoFragment.OnListFragmentInteractionListener;
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
     public MyCharacterInfoRecyclerViewAdapter(List<CharacterItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+
+        Collections.sort(mValues);
     }
 
     @Override
