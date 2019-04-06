@@ -10,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.monsalachai.rpginitiative.dummy.DummyContent;
-import com.monsalachai.rpginitiative.dummy.DummyContent.DummyItem;
+import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class CharacterInfoFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    private List<DummyItem> mItems;
+    private List<CharacterItem> mItems;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,7 +41,7 @@ public class CharacterInfoFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static CharacterInfoFragment newInstance(int columnCount, ArrayList<DummyItem> items) {
+    public static CharacterInfoFragment newInstance(int columnCount, ArrayList<CharacterItem> items) {
         CharacterInfoFragment fragment = new CharacterInfoFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
@@ -57,7 +56,7 @@ public class CharacterInfoFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-            mItems = (List<DummyItem>) getArguments().get(ARG_ITEMS);
+            mItems = (List<CharacterItem>) getArguments().get(ARG_ITEMS);
         } else {
             mItems = new ArrayList<>();
         }
@@ -112,6 +111,6 @@ public class CharacterInfoFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(CharacterItem item);
     }
 }

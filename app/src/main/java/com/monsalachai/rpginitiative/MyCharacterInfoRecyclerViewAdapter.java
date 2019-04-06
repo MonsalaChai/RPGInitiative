@@ -7,21 +7,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.monsalachai.rpginitiative.CharacterInfoFragment.OnListFragmentInteractionListener;
-import com.monsalachai.rpginitiative.dummy.DummyContent.DummyItem;
+import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link CharacterItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyCharacterInfoRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<CharacterItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyCharacterInfoRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyCharacterInfoRecyclerViewAdapter(List<CharacterItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,8 +36,8 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mInitiativeView.setText(mValues.get(position).id);
-        holder.mCharacterNameView.setText(mValues.get(position).content);
+        holder.mCharacterNameView.setText(mValues.get(position).mCharacterName);
+        holder.mInitiativeView.setText(String.valueOf(mValues.get(position).mInitiative));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +60,7 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
         public final View mView;
         public final TextView mInitiativeView;
         public final TextView mCharacterNameView;
-        public DummyItem mItem;
+        public CharacterItem mItem;
 
         public ViewHolder(View view) {
             super(view);

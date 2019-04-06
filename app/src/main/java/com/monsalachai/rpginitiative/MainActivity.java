@@ -7,8 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.monsalachai.rpginitiative.dummy.DummyContent;
-import com.monsalachai.rpginitiative.ui.main.MainFragment;
+import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.ArrayList;
 
@@ -29,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements CharacterInfoFrag
         toggle.syncState();
 
 
+        ArrayList<CharacterItem> items = getBasicData();
 
-        ArrayList<DummyContent.DummyItem> items = DummyContent.ITEMS;
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     //.replace(R.id.container, MainFragment.newInstance())
@@ -40,7 +39,21 @@ public class MainActivity extends AppCompatActivity implements CharacterInfoFrag
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(CharacterItem item) {
         Log.i("fragment", "item " + item);
+    }
+
+    private ArrayList<CharacterItem> getBasicData()
+    {
+        ArrayList<CharacterItem> items = new ArrayList<>();
+
+        items.add(new CharacterItem("Balinope", 12));
+        items.add(new CharacterItem("Broot", 3));
+        items.add(new CharacterItem("Zinfandel", 5));
+        items.add(new CharacterItem("JimmyJohn", 17));
+        items.add(new CharacterItem("Shoeshine", 8));
+        items.add(new CharacterItem("Snek", 2));
+
+        return items;
     }
 }
