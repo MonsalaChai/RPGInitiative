@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements CharacterInfoFrag
     private ArrayList<CharacterItem> getBasicData()
     {
         ArrayList<CharacterItem> items = new ArrayList<>();
-        
+
         items.add(new CharacterItem("Balinope", 12));
         items.add(new CharacterItem("Broot", 3));
         items.add(new CharacterItem("Zinfandel", 5));
