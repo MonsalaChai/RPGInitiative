@@ -1,12 +1,12 @@
 package com.monsalachai.rpginitiative;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.monsalachai.rpginitiative.CharacterInfoFragment.OnListFragmentInteractionListener;
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.Collections;
@@ -42,6 +42,8 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
         holder.mCharacterNameView.setText(mValues.get(position).mCharacterName);
         holder.mInitiativeView.setText(String.valueOf(mValues.get(position).mInitiative));
 
+        holder.mCharacterNameView.setTextColor(mValues.get(position).mHoldingTurn ? Color.RED : Color.BLACK);
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +59,11 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public void update()
+    {
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -6,13 +6,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements CharacterInfoFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +35,6 @@ public class MainActivity extends AppCompatActivity implements CharacterInfoFrag
                     .replace(R.id.container, CharacterInfoFragment.newInstance(1, items))
                     .commitNow();
         }
-    }
-
-    @Override
-    public void onListFragmentInteraction(CharacterItem item) {
-        Log.i("fragment", "item " + item);
     }
 
     @Override
