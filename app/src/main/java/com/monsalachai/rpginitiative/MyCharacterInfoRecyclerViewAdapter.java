@@ -22,7 +22,7 @@ import java.util.List;
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyCharacterInfoRecyclerViewAdapter.ViewHolder> {
-
+    protected static final String LTAG = "MCIRVA";
     private List<CharacterItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
@@ -32,7 +32,7 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
     }
 
     public void setItems(List<CharacterItem> items) {
-        Log.d("MyCharacterInfoRecyclerViewAdapter", "setItems items, old " + mValues.size() + " new " + items.size());
+        Log.d(LTAG, "setItems items, old " + mValues.size() + " new " + items.size());
         mValues = items;
 
         update();

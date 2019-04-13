@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private List<CharacterItem> mCharacters;
-    private CharacterViewModel viewModel;
+    private CharacterViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onDrawerClosed(view);
                 // notify the character info fragment of data change.
                 Log.d("DrawerToggle", "Drawer closed");
-                viewModel.moveToFightTeam(mCharacters.get(0));
+                mViewModel.moveToFightTeam(mCharacters.get(0));
             }
         };
 
@@ -47,16 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         mCharacters = Persist.getAllCharacters("");
 
-        viewModel = ViewModelProviders.of(this).get(CharacterViewModel.class);
-        viewModel.getBenchTeam().observe(this, new Observer<List<CharacterItem>>() {
+        mViewModel = ViewModelProviders.of(this).get(CharacterViewModel.class);
+        mViewModel.getBenchTeam().observe(this, new Observer<List<CharacterItem>>() {
             @Override
             public void onChanged(@Nullable List<CharacterItem> characterItems) {
                 Log.d("MainActivity", "onChanged new bench: " + characterItems);
             }
         });
 
-        viewModel.initBenchTeam(mCharacters);
-        viewModel.initFightTeam(new ArrayList<CharacterItem>());
+        mViewModel.initBenchTeam(mCharacters);
+        mViewModel.initFightTeam(new ArrayList<CharacterItem>());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

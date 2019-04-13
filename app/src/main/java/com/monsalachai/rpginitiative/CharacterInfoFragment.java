@@ -26,7 +26,7 @@ import java.util.List;
  * interface.
  */
 public class CharacterInfoFragment extends Fragment implements OnListFragmentInteractionListener {
-
+    protected static final String LTAG = "CIF";
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -64,7 +64,7 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
         mViewModel.getFightTeam().observe(this, new Observer<List<CharacterItem>>() {
             @Override
             public void onChanged(@Nullable List<CharacterItem> characterItems) {
-                Log.d("CharacterInfoFragment", "onChanged new fight: " + characterItems);
+                Log.d(LTAG, "onChanged new fight: " + characterItems);
                 mItems = characterItems;
                 mAdapter.setItems(mItems);
             }
@@ -114,7 +114,7 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     // method and then have it connected in the onAttach() method.
     @Override
     public void onListFragmentInteraction(CharacterItem item) {
-        Log.i("fragment", "item " + item);
+        Log.d(LTAG, "onListFragmentInteraction " + item);
         item.mHoldingTurn = !item.mHoldingTurn;
 
         mViewModel.moveToBenchTeam(item);

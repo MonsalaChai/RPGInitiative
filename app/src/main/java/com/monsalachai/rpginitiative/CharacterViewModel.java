@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterViewModel extends ViewModel {
+    protected static final String LTAG = "CVM";
     private final MutableLiveData<List<CharacterItem>> mBenchTeam = new MutableLiveData<>();
     private final MutableLiveData<List<CharacterItem>> mFightTeam = new MutableLiveData<>();
 
@@ -22,12 +23,12 @@ public class CharacterViewModel extends ViewModel {
     }
 
     public void moveToFightTeam(CharacterItem item) {
-        Log.d("CharacterViewModel","moveToFightTeam");
+        Log.d(LTAG, "moveToFightTeam");
         moveCharacter(item, true);
     }
 
     public void moveToBenchTeam(CharacterItem item) {
-        Log.d("CharacterViewModel","moveToBenchTeam");
+        Log.d(LTAG, "moveToBenchTeam");
         moveCharacter(item, false);
     }
 
@@ -42,8 +43,8 @@ public class CharacterViewModel extends ViewModel {
             benchTeam = new ArrayList<>();
         }
 
-        Log.d("CharacterViewModel", "moving " + item + " " + (isToFight ? "to fight" : "to bench"));
-        Log.d("CharacterViewModel", "moveCharacter fightTeam size " + fightTeam.size() + " bench team size " + benchTeam.size());
+        Log.d(LTAG, "moving " + item + " " + (isToFight ? "to fight" : "to bench"));
+        Log.d(LTAG, "moveCharacter fightTeam size " + fightTeam.size() + " bench team size " + benchTeam.size());
 
         List<CharacterItem> to;
         List<CharacterItem> from;
