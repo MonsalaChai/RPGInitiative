@@ -2,9 +2,12 @@ package com.monsalachai.rpginitiative;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
@@ -54,6 +57,17 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
                 }
             }
         });
+
+        holder.mInitiativeView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    String text = v.getText().toString();
+                    holder.mItem.mInitiative = Integer.parseInt(text);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -68,14 +82,14 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mInitiativeView;
+        public final EditText mInitiativeView;
         public final TextView mCharacterNameView;
         public CharacterItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mInitiativeView = (TextView) view.findViewById(R.id.initiative_value);
+            mInitiativeView = (EditText) view.findViewById(R.id.initiative_value);
             mCharacterNameView = (TextView) view.findViewById(R.id.character_name);
         }
 
