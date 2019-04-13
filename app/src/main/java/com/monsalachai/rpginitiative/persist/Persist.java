@@ -1,11 +1,15 @@
 package com.monsalachai.rpginitiative.persist;
 
+import android.util.Log;
+
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Persist {
+public final class Persist {
+    protected static final String LTAG = "Persistance";
+
     public static List<CharacterItem> getAllCharacters(String campaign_name) {
         ArrayList<CharacterItem> items = new ArrayList<>();
 
@@ -38,5 +42,16 @@ public class Persist {
         }
 
         return items;
+    }
+
+    public static void markActive(CharacterItem item) {
+        // Called by bucket list view when an item is being submitted
+        // to the active table.
+        Log.d(LTAG, "Marking item: " + item.mCharacterName + " as active, with initiative: " + item.mInitiative);
+    }
+
+    public static void markInactive(CharacterItem item) {
+        // called by the character info fragment when the user has kicked out
+        // an item.
     }
 }

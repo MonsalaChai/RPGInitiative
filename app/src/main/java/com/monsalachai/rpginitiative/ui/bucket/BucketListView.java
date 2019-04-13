@@ -3,6 +3,7 @@ package com.monsalachai.rpginitiative.ui.bucket;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +46,7 @@ public class BucketListView extends ConstraintLayout {
 
         // assign adapters to the recyclers.
         final BucketRecyclerAdapter characterAdapter = new BucketRecyclerAdapter(Persist.getAllCharacters(""));
-        final BucketRecyclerAdapter monsterAdapter = new BucketRecyclerAdapter(Persist.getAllMonsters());
+        final BucketRecyclerAdapter monsterAdapter = new BucketRecyclerAdapter(Persist.getAllMonsters(), false);
 
         mCharacterRecycler.setAdapter(characterAdapter);
         mMonsterRecycler.setAdapter(monsterAdapter);
@@ -75,12 +76,13 @@ public class BucketListView extends ConstraintLayout {
         characterAdapter.notifyDataSetChanged();
         monsterAdapter.notifyDataSetChanged();
 
-        if (mCharacterRecycler.getVisibility() != View.VISIBLE) {
-            Log.d(LTAG, "Character recycler is not set to visible");
-        }
-        if (mMonsterRecycler.getVisibility() != View.VISIBLE) {
-            Log.d(LTAG, "Monster recycler is not set to visible");
-        }
+        // set up swipe stuff.
+        SwipeController swipeController = new SwipeController(mCharacterRecycler);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(mCharacterRecycler);
+
+        itemTouchHelper = new ItemTouchHelper(new SwipeController(mMonsterRecycler, false));
+        itemTouchHelper.attachToRecyclerView(mMonsterRecycler);
 
     }
 }
