@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
@@ -26,7 +28,15 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                // notify the character info fragment of data change.
+                Log.d("DrawerToggle", "Drawer closed");
+            }
+        };
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
