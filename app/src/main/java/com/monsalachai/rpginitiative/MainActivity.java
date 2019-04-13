@@ -51,19 +51,4 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
-    private ArrayList<CharacterItem> getBasicData()
-    {
-        ArrayList<CharacterItem> items = new ArrayList<>();
-
-        items.add(new CharacterItem("Balinope", 12));
-        items.add(new CharacterItem("Broot", 3));
-        items.add(new CharacterItem("Zinfandel", 5));
-        items.add(new CharacterItem("Ezreal", 4));
-        items.add(new CharacterItem("JimmyJohn", 17));
-        items.add(new CharacterItem("Shoeshine", 8));
-        items.add(new CharacterItem("Snek", 2));
-
-        return items;
-    }
 }
