@@ -74,6 +74,14 @@ public class BucketListView extends ConstraintLayout {
         // notify recyclers of content.
         characterAdapter.notifyDataSetChanged();
         monsterAdapter.notifyDataSetChanged();
+
+        if (mCharacterRecycler.getVisibility() != View.VISIBLE) {
+            Log.d(LTAG, "Character recycler is not set to visible");
+        }
+        if (mMonsterRecycler.getVisibility() != View.VISIBLE) {
+            Log.d(LTAG, "Monster recycler is not set to visible");
+        }
+
     }
 }
 
