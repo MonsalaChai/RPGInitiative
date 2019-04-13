@@ -2,6 +2,7 @@ package com.monsalachai.rpginitiative;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +23,19 @@ import java.util.List;
  */
 public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyCharacterInfoRecyclerViewAdapter.ViewHolder> {
 
-    private final List<CharacterItem> mValues;
+    private List<CharacterItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
     public MyCharacterInfoRecyclerViewAdapter(List<CharacterItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+    }
 
-        Collections.sort(mValues);
+    public void setItems(List<CharacterItem> items) {
+        Log.d("MyCharacterInfoRecyclerViewAdapter", "setItems items, old " + mValues.size() + " new " + items.size());
+        mValues = items;
+
+        update();
     }
 
     @Override
@@ -77,6 +83,7 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
 
     public void update()
     {
+        Collections.sort(mValues);
         notifyDataSetChanged();
     }
 

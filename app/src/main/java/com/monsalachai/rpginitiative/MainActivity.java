@@ -1,5 +1,8 @@
 package com.monsalachai.rpginitiative;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,12 +14,13 @@ import android.view.View;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
-import com.monsalachai.rpginitiative.ui.main.MainFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private List<CharacterItem> mItems;
+    private List<CharacterItem> mCharacters;
+    private CharacterViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +38,30 @@ public class MainActivity extends AppCompatActivity {
                 super.onDrawerClosed(view);
                 // notify the character info fragment of data change.
                 Log.d("DrawerToggle", "Drawer closed");
+                viewModel.moveToFightTeam(mCharacters.get(0));
             }
         };
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        mItems = Persist.getAllCharacters("");
+        mCharacters = Persist.getAllCharacters("");
+
+        viewModel = ViewModelProviders.of(this).get(CharacterViewModel.class);
+        viewModel.getBenchTeam().observe(this, new Observer<List<CharacterItem>>() {
+            @Override
+            public void onChanged(@Nullable List<CharacterItem> characterItems) {
+                Log.d("MainActivity", "onChanged new bench: " + characterItems);
+            }
+        });
+
+        viewModel.initBenchTeam(mCharacters);
+        viewModel.initFightTeam(new ArrayList<CharacterItem>());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     //.replace(R.id.container, MainFragment.newInstance())
-                    .replace(R.id.container, CharacterInfoFragment.newInstance(1, mItems))
+                    .replace(R.id.container, CharacterInfoFragment.newInstance(1))
                     .commitNow();
         }
     }

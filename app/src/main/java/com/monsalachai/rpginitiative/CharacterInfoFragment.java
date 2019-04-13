@@ -1,7 +1,10 @@
 package com.monsalachai.rpginitiative;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,11 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +29,12 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private static final String ARG_ITEMS = "character-items";
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
     private List<CharacterItem> mItems;
     private MyCharacterInfoRecyclerViewAdapter mAdapter;
+    private CharacterViewModel mViewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,12 +45,11 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static CharacterInfoFragment newInstance(int columnCount, List<CharacterItem> items) {
+    public static CharacterInfoFragment newInstance(int columnCount) {
         CharacterInfoFragment fragment = new CharacterInfoFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
-        args.putSerializable(ARG_ITEMS, (Serializable) items);  // all standard List implementations
-                                                                // implement serializable
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,11 +58,20 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mItems = new ArrayList<>();
+
+        mViewModel = ViewModelProviders.of(getActivity()).get(CharacterViewModel.class);
+        mViewModel.getFightTeam().observe(this, new Observer<List<CharacterItem>>() {
+            @Override
+            public void onChanged(@Nullable List<CharacterItem> characterItems) {
+                Log.d("CharacterInfoFragment", "onChanged new fight: " + characterItems);
+                mItems = characterItems;
+                mAdapter.setItems(mItems);
+            }
+        });
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-            mItems = (List<CharacterItem>) getArguments().get(ARG_ITEMS);
-        } else {
-            mItems = new ArrayList<>();
         }
 
         mAdapter = null;
@@ -107,6 +116,8 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     public void onListFragmentInteraction(CharacterItem item) {
         Log.i("fragment", "item " + item);
         item.mHoldingTurn = !item.mHoldingTurn;
+
+        mViewModel.moveToBenchTeam(item);
         mAdapter.update();
     }
 }
