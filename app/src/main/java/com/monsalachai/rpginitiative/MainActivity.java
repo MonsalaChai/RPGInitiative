@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
+import com.monsalachai.rpginitiative.persist.Persist;
 import com.monsalachai.rpginitiative.ui.main.MainFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private ArrayList<CharacterItem> mItems;
+    private List<CharacterItem> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        mItems = getBasicData();
+        mItems = Persist.getAllCharacters("");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

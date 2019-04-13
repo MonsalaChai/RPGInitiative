@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:background="@drawable/drawer_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    tools:parentTag="android.support.constraint.ConstraintLayout">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/drawer_recycler"
+        android:id="@+id/drawer_creatures"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginTop="15dp"
+        android:background="#a8a8a8"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drawer_monsters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="#a8a8a8"
+        app:layout_constraintBottom_toTopOf="@+id/bucket_add_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline" />
 
 
     <ImageButton
@@ -34,6 +56,4 @@
         app:layout_constraintEnd_toStartOf="@id/bucket_add_button"
         app:layout_constraintStart_toStartOf="parent"/>
 
-
-
-</android.support.constraint.ConstraintLayout>
+</merge>

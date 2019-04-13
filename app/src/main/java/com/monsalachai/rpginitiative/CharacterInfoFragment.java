@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +43,12 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static CharacterInfoFragment newInstance(int columnCount, ArrayList<CharacterItem> items) {
+    public static CharacterInfoFragment newInstance(int columnCount, List<CharacterItem> items) {
         CharacterInfoFragment fragment = new CharacterInfoFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
-        args.putSerializable(ARG_ITEMS, items);
+        args.putSerializable(ARG_ITEMS, (Serializable) items);  // all standard List implementations
+                                                                // implement serializable
         fragment.setArguments(args);
         return fragment;
     }
