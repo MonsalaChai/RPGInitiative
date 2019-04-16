@@ -14,6 +14,7 @@ import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BucketListView extends ConstraintLayout {
@@ -52,6 +53,7 @@ public class BucketListView extends ConstraintLayout {
     public void update(List<CharacterItem> items) {
         // Only type of item that should be coming in this way is character items.
         // Update mCharacterAdapter
+        Collections.sort(items);
         mCharacterAdatper.mItems = items;
         mCharacterAdatper.notifyDataSetChanged();
     }
@@ -86,6 +88,9 @@ public class BucketListView extends ConstraintLayout {
                 return false;
             }
         });
+
+        Collections.sort(mCharacterAdatper.mItems);
+        Collections.sort(mMonsterAdapter.mItems);
 
         mCharacterRecycler.setAdapter(mCharacterAdatper);
         mMonsterRecycler.setAdapter(mMonsterAdapter);
