@@ -4,4 +4,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="describe_bucket_add_button">Add an item to list</string>
     <string name="describe_bucket_remove_button">Remove an item from a list</string>
+    <string name="drawer_label_characters">Characters</string>
+    <string name="drawer_label_monsters">Monsters</string>
 </resources>
