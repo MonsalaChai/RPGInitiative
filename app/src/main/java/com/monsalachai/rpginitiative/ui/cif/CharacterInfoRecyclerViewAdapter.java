@@ -23,7 +23,7 @@ import java.util.List;
  * TODO: Replace the implementation with code for your data type.
  */
 public class CharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<CharacterInfoRecyclerViewAdapter.ViewHolder> {
-    protected static final String LTAG = "MCIRVA";
+    protected static final String LTAG = "CIRVA";
     private List<CharacterItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
