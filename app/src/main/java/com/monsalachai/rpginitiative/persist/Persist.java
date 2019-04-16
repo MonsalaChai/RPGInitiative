@@ -25,6 +25,30 @@ public final class Persist {
         }
     }
 
+    public static void add(CharacterItem item) {
+        if (mDatabase == null) return;
+        if (!item.isMonster()) return;
+
+        Monster m = new Monster();
+        m.setName(item.mCharacterName);
+        m.setUid(mDatabase.monsterDao().insert(m));
+        item.setPersistId(m.getUid());
+    }
+
+    public static void add(String campaignName, CharacterItem item) {
+        if (mDatabase == null) return;
+        if (item.isMonster()) {
+            add(item);
+            return;
+        }
+
+        Character c = new Character();
+        c.setName(item.mCharacterName);
+        c.setCampaignUid(getCampaignByName(campaignName).getUid());
+        c.setUid(mDatabase.characterDao().insert(c));
+        item.setPersistId(c.getUid());
+    }
+
     public static List<CharacterItem> getAllCharacters(String campaignName) {
         // find campaign id by name.
         CampaignData cd = mDatabase.campaignDao().getByName(campaignName);
@@ -144,5 +168,29 @@ public final class Persist {
     public static void markInactive(CharacterItem item) {
         // called by the character info fragment when the user has kicked out
         // an item.
+    }
+
+    public static boolean confirmUnique(String campaign, String name, boolean isMonster) {
+        if (mDatabase == null) return false;
+        if (isMonster) {
+            Monster m = mDatabase.monsterDao().getByName(name);
+            return (m == null);
+        }
+        else {
+            long cuid = getCampaignByName(campaign).getUid();
+            Character c = mDatabase.characterDao().getByName(cuid, name);
+            return (c == null);
+        }
+    }
+
+    private static CampaignData getCampaignByName(String name) {
+        if (mDatabase == null) return null;
+        CampaignData cd = mDatabase.campaignDao().getByName(name);
+        if (cd == null) {
+            cd = new CampaignData();
+            cd.setName(name);
+            cd.setUid(mDatabase.campaignDao().insert(cd));
+        }
+        return cd;
     }
 }

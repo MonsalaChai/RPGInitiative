@@ -18,4 +18,8 @@ public interface Character {
     @Query("SELECT * FROM characters WHERE campaign_id IS :cuid")
     List<com.monsalachai.rpginitiative.persist.room.entities.Character> getByCampaign(long cuid);
 
+    @Query("SELECT * FROM characters WHERE name LIKE :name AND campaign_id IS :cuid")
+    com.monsalachai.rpginitiative.persist.room.entities.Character getByName(long cuid, String name);
+
+
 }

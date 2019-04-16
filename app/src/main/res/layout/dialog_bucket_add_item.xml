@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/drawer_bucket_dlg_hint_enter_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/monster_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/drawer_bucket_dlg_toggle_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_name"/>
+
+    <EditText
+        android:id="@+id/edit_base_initiative"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/drawer_bucket_dlg_hint_enter_dex"
+        android:inputType="number"
+        android:layout_marginLeft="3dp"
+        app:layout_constraintStart_toEndOf="@id/monster_switch"
+        app:layout_constraintTop_toBottomOf="@id/edit_name"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

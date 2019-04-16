@@ -18,4 +18,8 @@ public interface Monster {
     @Query("SELECT * FROM monsters")
     List<com.monsalachai.rpginitiative.persist.room.entities.Monster> getAllMonsters();
 
+    @Query("SELECT * FROM monsters WHERE name LIKE :name LIMIT 1")
+    com.monsalachai.rpginitiative.persist.room.entities.Monster getByName(String name);
+
+
 }

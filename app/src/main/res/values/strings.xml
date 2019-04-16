@@ -6,4 +6,7 @@
     <string name="describe_bucket_remove_button">Remove an item from a list</string>
     <string name="drawer_label_characters">Characters</string>
     <string name="drawer_label_monsters">Monsters</string>
+    <string name="drawer_bucket_dlg_hint_enter_name">Enter Name Here</string>
+    <string name="drawer_bucket_dlg_toggle_label">Is Monster</string>
+    <string name="drawer_bucket_dlg_hint_enter_dex">Base Initiative</string>
 </resources>

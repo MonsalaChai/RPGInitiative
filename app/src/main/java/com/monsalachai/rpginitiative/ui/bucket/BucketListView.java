@@ -1,13 +1,18 @@
 package com.monsalachai.rpginitiative.ui.bucket;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.ToggleButton;
 
 import com.monsalachai.rpginitiative.R;
 import com.monsalachai.rpginitiative.model.CharacterItem;
@@ -100,7 +105,40 @@ public class BucketListView extends ConstraintLayout {
             @Override
             public void onClick(View view) {
                 Log.d(LTAG, "Add button clicked.");
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                final View v = inflate(view.getContext(), R.layout.dialog_bucket_add_item, null);
 
+                builder.setView(v)
+                        .setMessage("Add new item")
+                        .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        boolean isMonster = ((Switch)v.findViewById(R.id.monster_switch)).isChecked();
+                        String name = ((EditText)v.findViewById(R.id.edit_name)).getText().toString();
+                        int baseInit;
+                        try {
+                            baseInit = Integer.parseInt(((EditText)v.findViewById(R.id.edit_base_initiative)).getText().toString());
+                        }
+                        catch (NumberFormatException e) {
+                            baseInit = 0;
+                        }
+
+                        // confirm name is unique in respective table.
+                        if (Persist.confirmUnique("demo", name, isMonster)) {
+                            CharacterItem item = new CharacterItem(name, 0);
+                            item.setIsMonster(isMonster);
+                            // set base dex here.
+
+                            Log.d(LTAG, "Persisting new item: " + item);
+
+                            Persist.add("demo", item);
+
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+                builder.create().show();
             }
         });
         mRemoveButton.setOnClickListener(new OnClickListener() {

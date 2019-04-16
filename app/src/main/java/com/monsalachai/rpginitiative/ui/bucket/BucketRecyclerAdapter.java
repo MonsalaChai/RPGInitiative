@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.monsalachai.rpginitiative.R;
 import com.monsalachai.rpginitiative.model.CharacterItem;
-import com.monsalachai.rpginitiative.persist.Persist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +96,13 @@ public class BucketRecyclerAdapter extends RecyclerView.Adapter<BucketRecyclerAd
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                int initiative = Integer.parseInt(((EditText) v.findViewById(R.id.edit_text)).getText().toString());
+                                int initiative;
+                                try {
+                                    initiative = Integer.parseInt(((EditText) v.findViewById(R.id.edit_text)).getText().toString());
+                                }
+                                catch (NumberFormatException e) {
+                                    initiative = 0;
+                                }
                                 vh.mCharacterItem.mInitiative = initiative;
 
                                 boolean result = false;
