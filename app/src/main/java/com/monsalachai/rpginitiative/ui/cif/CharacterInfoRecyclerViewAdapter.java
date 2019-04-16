@@ -52,7 +52,12 @@ public class CharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<Chara
         holder.mCharacterNameView.setText(mValues.get(position).mCharacterName);
         holder.mInitiativeView.setText(String.valueOf(mValues.get(position).mInitiative));
 
-        holder.mCharacterNameView.setTextColor(mValues.get(position).mHoldingTurn ? Color.RED : Color.BLACK);
+        //holder.mCharacterNameView.setTextColor(mValues.get(position).mHoldingTurn ? Color.RED : Color.BLACK);
+        if (holder.mItem.mHoldingTurn)
+            holder.mView.setBackgroundResource(R.color.color_fight_action_held);
+
+        else
+            holder.mView.setBackgroundColor(Color.WHITE);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
