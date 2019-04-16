@@ -13,14 +13,13 @@ import com.monsalachai.rpginitiative.R;
 import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BucketListView extends ConstraintLayout {
     static final String LTAG = "BLV";
     private RecyclerView mCharacterRecycler;
     private RecyclerView mMonsterRecycler;
-    private BucketRecyclerAdapter mCharacterAdatper;
+    private BucketRecyclerAdapter mCharacterAdapter;
     private BucketRecyclerAdapter mMonsterAdapter;
     private ImageButton  mAddButton;
     private ImageButton mRemoveButton;
@@ -52,8 +51,8 @@ public class BucketListView extends ConstraintLayout {
     public void update(List<CharacterItem> items) {
         // Only type of item that should be coming in this way is character items.
         // Update mCharacterAdapter
-        mCharacterAdatper.mItems = items;
-        mCharacterAdatper.notifyDataSetChanged();
+        mCharacterAdapter.mItems = items;
+        mCharacterAdapter.notifyDataSetChanged();
     }
 
     private void init() {
@@ -70,7 +69,7 @@ public class BucketListView extends ConstraintLayout {
         mRemoveButton = (ImageButton) getViewById(R.id.bucket_remove_button);
 
         // assign adapters to the recyclers.
-        mCharacterAdatper = new BucketRecyclerAdapter(Persist.getAllCharacters("demo"), new BucketRecyclerAdapter.OnSubmitCharacterListener() {
+        mCharacterAdapter = new BucketRecyclerAdapter(Persist.getAllCharacters("demo"), new BucketRecyclerAdapter.OnSubmitCharacterListener() {
             @Override
             public boolean onSubmitCharacterItem(CharacterItem item) {
                 if (mActionListener != null)
@@ -87,7 +86,7 @@ public class BucketListView extends ConstraintLayout {
             }
         });
 
-        mCharacterRecycler.setAdapter(mCharacterAdatper);
+        mCharacterRecycler.setAdapter(mCharacterAdapter);
         mMonsterRecycler.setAdapter(mMonsterAdapter);
 
         // set on click listeners for the buttons, for sanity.
@@ -106,7 +105,7 @@ public class BucketListView extends ConstraintLayout {
         });
 
         // notify recyclers of content.
-        mCharacterAdatper.notifyDataSetChanged();
+        mCharacterAdapter.notifyDataSetChanged();
         mMonsterAdapter.notifyDataSetChanged();
 
         // set up swipe stuff.
