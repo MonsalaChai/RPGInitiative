@@ -11,6 +11,7 @@ public class CharacterItem implements Serializable, Comparable<CharacterItem> {
     public boolean mHoldingTurn;
     public boolean mAlive;
     protected boolean mIsMonster;
+    protected long persistId;
 
     public CharacterItem(String name, int initiative)
     {
@@ -27,6 +28,14 @@ public class CharacterItem implements Serializable, Comparable<CharacterItem> {
 
     public void setIsMonster(boolean state) {
         mIsMonster = state;
+    }
+
+    public long getPersistId() {
+        return persistId;
+    }
+
+    public void setPersistId(long persistId) {
+        this.persistId = persistId;
     }
 
     @Override
