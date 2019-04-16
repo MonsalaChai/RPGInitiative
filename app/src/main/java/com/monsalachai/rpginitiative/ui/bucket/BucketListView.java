@@ -14,6 +14,7 @@ import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BucketListView extends ConstraintLayout {
     static final String LTAG = "BLV";
@@ -48,11 +49,11 @@ public class BucketListView extends ConstraintLayout {
         return mActionListener;
     }
 
-    public void update() {
-        mCharacterAdatper.mItems = new ArrayList<>(Persist.getAllCharacters("demo"));
-        mMonsterAdapter.mItems = new ArrayList<>(Persist.getAllMonsters());
+    public void update(List<CharacterItem> items) {
+        // Only type of item that should be coming in this way is character items.
+        // Update mCharacterAdapter
+        mCharacterAdatper.mItems = items;
         mCharacterAdatper.notifyDataSetChanged();
-        mMonsterAdapter.notifyDataSetChanged();
     }
 
     private void init() {

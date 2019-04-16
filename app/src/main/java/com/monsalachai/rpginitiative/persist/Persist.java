@@ -51,6 +51,8 @@ public final class Persist {
         List<Monster> monsters = mDatabase.monsterDao().getAllMonsters();
         ArrayList<CharacterItem> items = new ArrayList<>();
         for (Monster monster : monsters) {
+            CharacterItem characterItem = new CharacterItem(monster.getName(), 0);
+            characterItem.setIsMonster(true);
             items.add(new CharacterItem(monster.getName(), 0));
         }
         return items;

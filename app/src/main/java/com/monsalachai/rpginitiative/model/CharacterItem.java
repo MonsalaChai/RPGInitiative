@@ -10,6 +10,7 @@ public class CharacterItem implements Serializable, Comparable<CharacterItem> {
     public int mInitiative;
     public boolean mHoldingTurn;
     public boolean mAlive;
+    protected boolean mIsMonster;
 
     public CharacterItem(String name, int initiative)
     {
@@ -17,12 +18,22 @@ public class CharacterItem implements Serializable, Comparable<CharacterItem> {
         mInitiative = initiative;
         mHoldingTurn = false;
         mAlive = true;
+        mIsMonster = false;
+    }
+
+    public boolean isMonster() {
+        return mIsMonster;
+    }
+
+    public void setIsMonster(boolean state) {
+        mIsMonster = state;
     }
 
     @Override
     public int compareTo(@NonNull CharacterItem o) {
         // Higher initiative is better, so sort it earlier.
-        return o.mInitiative - this.mInitiative;
+        int firstOrder = o.mInitiative - this.mInitiative;
+        return (firstOrder != 0) ? firstOrder :  this.mCharacterName.compareTo(o.mCharacterName);
     }
 
     @Override

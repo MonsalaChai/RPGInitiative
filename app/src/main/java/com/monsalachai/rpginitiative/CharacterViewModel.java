@@ -29,7 +29,16 @@ public class CharacterViewModel extends ViewModel {
 
     public void moveToBenchTeam(CharacterItem item) {
         Log.d(LTAG, "moveToBenchTeam");
-        moveCharacter(item, false);
+        if (item.isMonster()) {
+            // just remove from fight team.
+            List<CharacterItem> fightItems = mFightTeam.getValue();
+            fightItems.remove(item);
+            mFightTeam.setValue(fightItems);
+        }
+        else {
+            moveCharacter(item, false);
+        }
+
     }
 
     private void moveCharacter(CharacterItem item, boolean isToFight) {
@@ -70,5 +79,11 @@ public class CharacterViewModel extends ViewModel {
 
     public MutableLiveData<List<CharacterItem>> getBenchTeam() {
         return mBenchTeam;
+    }
+
+    public void addMonsterToFight(CharacterItem monster) {
+        List<CharacterItem> fightItems = mFightTeam.getValue();
+        fightItems.add(monster);
+        mFightTeam.setValue(fightItems);
     }
 }

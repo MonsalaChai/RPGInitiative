@@ -46,9 +46,7 @@ public class BucketRecyclerAdapter extends RecyclerView.Adapter<BucketRecyclerAd
             super(view);
             mView = view;
             mNameView = (TextView) view.findViewById(R.id.name);
-            mCardView = (CardView) view.findViewById(R.id.card);    // this should be mView, but
-                                                                    // hopefully this will help
-                                                                    // future proof the code
+            mCardView = (CardView) view.findViewById(R.id.card);
         }
 
         void setCharacterItem(CharacterItem item) {
