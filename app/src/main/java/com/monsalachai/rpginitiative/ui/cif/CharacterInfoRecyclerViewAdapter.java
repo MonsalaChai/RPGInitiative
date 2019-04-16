@@ -57,6 +57,7 @@ public class CharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<Chara
             holder.mView.setBackgroundResource(R.color.color_fight_action_held);
 
         else
+            // TODO: use default theme color rather than Color.WHITE.
             holder.mView.setBackgroundColor(Color.WHITE);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

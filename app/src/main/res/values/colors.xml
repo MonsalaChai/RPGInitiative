@@ -3,6 +3,6 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="color_fight_action_held">#ff8c96</color>
+    <color name="color_fight_action_held">#ffe16a</color>
     <color name="color_fight_unconscious">#ff8c96</color>
 </resources>
