@@ -11,7 +11,18 @@ public class CharacterItem implements Serializable, Comparable<CharacterItem> {
     public boolean mHoldingTurn;
     public boolean mAlive;
     protected boolean mIsMonster;
-    protected long persistId;
+    protected long mPersistId;   // the item's UID in its repsective table (monster or character)
+    protected long mFightId;     // the item's UID in the fight table, if it is in the fight table.
+
+    public CharacterItem() {
+        mCharacterName = "";
+        mInitiative = 0;
+        mHoldingTurn = false;
+        mAlive = true;
+        mIsMonster = false;
+        mFightId = 0;
+        mPersistId = 0;
+    }
 
     public CharacterItem(String name, int initiative)
     {
@@ -20,6 +31,8 @@ public class CharacterItem implements Serializable, Comparable<CharacterItem> {
         mHoldingTurn = false;
         mAlive = true;
         mIsMonster = false;
+        mPersistId = 0;
+        mFightId = 0;
     }
 
     public boolean isMonster() {
@@ -31,11 +44,19 @@ public class CharacterItem implements Serializable, Comparable<CharacterItem> {
     }
 
     public long getPersistId() {
-        return persistId;
+        return mPersistId;
     }
 
     public void setPersistId(long persistId) {
-        this.persistId = persistId;
+        this.mPersistId = persistId;
+    }
+
+    public void setFightId(long fightId) {
+        mFightId = fightId;
+    }
+
+    public long getFightId() {
+        return mFightId;
     }
 
     @Override

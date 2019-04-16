@@ -21,5 +21,9 @@ public interface Character {
     @Query("SELECT * FROM characters WHERE name LIKE :name AND campaign_id IS :cuid")
     com.monsalachai.rpginitiative.persist.room.entities.Character getByName(long cuid, String name);
 
+    @Query("SELECT * FROM characters WHERE uid IS :uid LIMIT 1")
+    com.monsalachai.rpginitiative.persist.room.entities.Character getById(long uid);
 
+    @Query("SELECT * FROM characters WHERE campaign_id IS :cuid AND uid NOT IN (:present)")
+    List<com.monsalachai.rpginitiative.persist.room.entities.Character> getMissingByCampaign(long cuid, List<Long> present);
 }

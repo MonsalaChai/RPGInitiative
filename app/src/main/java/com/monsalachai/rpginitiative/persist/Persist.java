@@ -6,11 +6,14 @@ import android.util.Log;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.room.Database;
+import com.monsalachai.rpginitiative.persist.room.daos.Fight;
 import com.monsalachai.rpginitiative.persist.room.entities.CampaignData;
 import com.monsalachai.rpginitiative.persist.room.entities.Character;
+import com.monsalachai.rpginitiative.persist.room.entities.FightData;
 import com.monsalachai.rpginitiative.persist.room.entities.Monster;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class Persist {
@@ -47,6 +50,92 @@ public final class Persist {
         c.setCampaignUid(getCampaignByName(campaignName).getUid());
         c.setUid(mDatabase.characterDao().insert(c));
         item.setPersistId(c.getUid());
+    }
+
+    public static void removeFromFight(String campaignName, CharacterItem item) {
+        if (mDatabase == null) return;
+
+        // Find the fight data object.
+        Fight fightDao = mDatabase.fightDao();
+
+        FightData row = fightDao.findObject(getCampaignByName(campaignName).getUid(), item.getFightId());
+        if (row != null) {
+            // remove from fight data table.
+            fightDao.delete(row);
+            item.setFightId(0);
+        }
+    }
+
+    public static List<CharacterItem> loadAllCombatants(String campaignName) {
+        // Load a character item for every entry in FightData that matches specified campaign.
+        if (mDatabase == null) return null;
+
+        CampaignData campaignData = getCampaignByName(campaignName);
+        List<FightData> rows = mDatabase.fightDao().getByCampaignId(campaignData.getUid());
+        LinkedList<CharacterItem> items = new LinkedList<>();
+
+        for (FightData row : rows) {
+            // Load from the appropriate character / monster table.
+            CharacterItem item = new CharacterItem();
+            item.setPersistId(row.getCharacterId());
+            item.setFightId(row.getUid());
+            item.mInitiative = row.getInitiative();
+
+            Monster m = null;
+            if (row.isMonster()) {
+                item.setIsMonster(true);
+                m = mDatabase.monsterDao().getById(item.getPersistId());
+            }
+            else {
+                m = mDatabase.characterDao().getById(item.getPersistId());
+            }
+            item.mCharacterName = m.getName();
+
+            items.add(item);
+            Log.d(LTAG, "Loaded combatant: " + item);
+        }
+
+        return items;
+    }
+
+    public static List<CharacterItem> loadNonCombatants(String campaignName) {
+        return loadNonCombatants(campaignName, loadAllCombatants(campaignName));
+    }
+
+    public static List<CharacterItem> loadNonCombatants(String campaignName, List<CharacterItem> combatantSet) {
+        if (mDatabase == null) return null;
+        // Create an id-only list.
+        ArrayList<Long> idList = new ArrayList<>();
+        for (CharacterItem item : combatantSet) idList.add(item.getPersistId());
+
+        // Get all Character entities not represented by the set of IDs
+        List<Character> entities = mDatabase.characterDao().getMissingByCampaign(getCampaignByName(campaignName).getUid(), idList);
+
+        // Convert the Character entities to CharacterItems.
+        LinkedList<CharacterItem> items = new LinkedList<>();
+        for (Character c: entities) {
+            CharacterItem item = new CharacterItem(c.getName(), 0);
+            item.setPersistId(c.getUid());
+            items.add(item);
+            Log.d(LTAG, "Loaded noncombatant: " + item);
+        }
+
+        return items;
+    }
+
+    public static void addToFight(String campaignName, CharacterItem item) {
+        if (mDatabase == null) return;
+        if (item.getFightId() != 0) return; // already in fight.
+        long cuid = getCampaignByName(campaignName).getUid();
+
+        FightData fd = new FightData();
+        fd.setCampaignUid(cuid);
+        fd.setCharacterId(item.getPersistId());
+        fd.setHoldingAction(item.mHoldingTurn);
+        fd.setInitiative(item.mInitiative);
+        fd.setMonster(item.isMonster());
+        fd.setUid(mDatabase.fightDao().insert(fd));
+        item.setFightId(fd.getUid());
     }
 
     public static List<CharacterItem> getAllCharacters(String campaignName) {

@@ -15,6 +15,9 @@ public interface Monster {
     @Delete
     void delete(com.monsalachai.rpginitiative.persist.room.entities.Monster monster);
 
+    @Query("SELECT * FROM monsters WHERE uid IS :uid LIMIT 1")
+    com.monsalachai.rpginitiative.persist.room.entities.Monster getById(long uid);
+
     @Query("SELECT * FROM monsters")
     List<com.monsalachai.rpginitiative.persist.room.entities.Monster> getAllMonsters();
 

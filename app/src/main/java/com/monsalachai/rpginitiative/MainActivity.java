@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
+import com.monsalachai.rpginitiative.persist.room.entities.FightData;
 import com.monsalachai.rpginitiative.ui.bucket.BucketListView;
 import com.monsalachai.rpginitiative.ui.bucket.DrawerFragment;
 import com.monsalachai.rpginitiative.ui.bucket.OnBucketListActionListener;
@@ -59,10 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
         mCharacters = Persist.getAllCharacters("demo");
 
+        // Load last saved state,
+        // first load all CharacterItems that are in the fight zone
+        List<CharacterItem> combatants = Persist.loadAllCombatants("demo");
+        List<CharacterItem> noncombatants = Persist.loadNonCombatants("demo");
+
         mViewModel = ViewModelProviders.of(this).get(CharacterViewModel.class);
 
-        mViewModel.initBenchTeam(mCharacters);
-        mViewModel.initFightTeam(new ArrayList<CharacterItem>());
+        mViewModel.initBenchTeam(noncombatants);
+        mViewModel.initFightTeam(combatants);
 
 
         if (savedInstanceState == null) {

@@ -5,5 +5,6 @@ import com.monsalachai.rpginitiative.model.CharacterItem;
 public interface OnBucketListActionListener {
     // Called when an item needs to be added to the fight.
     void onAddItemToFight(CharacterItem item, boolean isMonster);
+    void onCreateCharacter(CharacterItem item);
     void onDeleteItemFromBench(CharacterItem item);
 }

@@ -74,6 +74,8 @@ public class DrawerFragment extends Fragment {
                     int id = mMonsterCreationCount.getOrDefault(item.mCharacterName, 0) + 1;
                     String newName = item.mCharacterName + " [" + id + "]";
                     CharacterItem monster = new CharacterItem(newName, item.mInitiative);
+                    monster.setPersistId(item.getPersistId());  // set clones to have the same
+                    // Monster table id (this is for item restoration while reloading the fight zone)
 
                     mMonsterCreationCount.put(item.mCharacterName, id);
 
@@ -85,6 +87,12 @@ public class DrawerFragment extends Fragment {
             public void onDeleteItemFromBench(CharacterItem item) {
                 // remove from the correct adapter, delete from persistence.
             }
+
+            @Override
+            public void onCreateCharacter(CharacterItem item) {
+                mViewModel.addNewCharacterToBench(item);
+            }
+
         });
         return rootView;
     }

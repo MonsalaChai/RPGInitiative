@@ -133,6 +133,15 @@ public class BucketListView extends ConstraintLayout {
 
                             Persist.add("demo", item);
 
+                            if (item.isMonster()) {
+                                mMonsterAdapter.mItems.add(item);
+                                Collections.sort(mMonsterAdapter.mItems);
+                                mMonsterAdapter.notifyDataSetChanged();
+                            }
+                            else if (mActionListener != null) {
+                                // is character and callback listener is available.
+                                mActionListener.onCreateCharacter(item);
+                            }
                         }
                     }
                 })

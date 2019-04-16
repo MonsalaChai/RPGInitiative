@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
+import com.monsalachai.rpginitiative.persist.Persist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,16 @@ public class CharacterViewModel extends ViewModel {
 
     public void moveToFightTeam(CharacterItem item) {
         Log.d(LTAG, "moveToFightTeam");
+        Persist.addToFight("demo", item);
         moveCharacter(item, true);
     }
 
     public void moveToBenchTeam(CharacterItem item) {
         Log.d(LTAG, "moveToBenchTeam");
+
+        // Inform persist of the change.
+        Persist.removeFromFight("demo", item);
+
         if (item.isMonster()) {
             // just remove from fight team.
             List<CharacterItem> fightItems = mFightTeam.getValue();
@@ -85,5 +91,11 @@ public class CharacterViewModel extends ViewModel {
         List<CharacterItem> fightItems = mFightTeam.getValue();
         fightItems.add(monster);
         mFightTeam.setValue(fightItems);
+    }
+
+    public void addNewCharacterToBench(CharacterItem item) {
+        List<CharacterItem> benchItems = mBenchTeam.getValue();
+        benchItems.add(item);
+        mBenchTeam.setValue(benchItems);
     }
 }
