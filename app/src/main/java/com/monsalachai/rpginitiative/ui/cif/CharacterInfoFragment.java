@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -60,6 +63,8 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         mItems = new ArrayList<>();
 
@@ -136,5 +141,22 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
         Log.d(LTAG, "Removed: " + item.toString() + " from the fight bench");
         mViewModel.moveToBenchTeam(item);
         mAdapter.removeItem(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_character_info_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.sort:
+                mAdapter.update();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

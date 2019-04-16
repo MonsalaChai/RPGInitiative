@@ -3,7 +3,6 @@ package com.monsalachai.rpginitiative.ui.bucket;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -102,7 +101,7 @@ public class DrawerFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.acitivity_main_menu, menu);
+        inflater.inflate(R.menu.fragment_drawer_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
