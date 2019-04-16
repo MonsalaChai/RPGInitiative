@@ -2,4 +2,6 @@
     <string name="app_name">RPGInitiative</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="describe_bucket_add_button">Add an item to list</string>
+    <string name="describe_bucket_remove_button">Remove an item from a list</string>
 </resources>

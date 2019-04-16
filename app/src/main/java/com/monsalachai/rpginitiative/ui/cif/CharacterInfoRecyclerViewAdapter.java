@@ -1,4 +1,4 @@
-package com.monsalachai.rpginitiative;
+package com.monsalachai.rpginitiative.ui.cif;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.monsalachai.rpginitiative.R;
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.Collections;
@@ -21,12 +22,12 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyCharacterInfoRecyclerViewAdapter.ViewHolder> {
+public class CharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<CharacterInfoRecyclerViewAdapter.ViewHolder> {
     protected static final String LTAG = "MCIRVA";
     private List<CharacterItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyCharacterInfoRecyclerViewAdapter(List<CharacterItem> items, OnListFragmentInteractionListener listener) {
+    public CharacterInfoRecyclerViewAdapter(List<CharacterItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -59,7 +60,7 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentShortTouch(holder.mItem);
                 }
             }
         });
@@ -85,6 +86,11 @@ public class MyCharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<MyC
     {
         Collections.sort(mValues);
         notifyDataSetChanged();
+    }
+
+    public void removeItem(CharacterItem item) {
+        mValues.remove(item);
+        update();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

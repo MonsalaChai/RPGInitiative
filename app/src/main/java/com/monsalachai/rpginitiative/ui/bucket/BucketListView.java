@@ -10,14 +10,20 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.monsalachai.rpginitiative.R;
+import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
+
+import java.util.ArrayList;
 
 public class BucketListView extends ConstraintLayout {
     static final String LTAG = "BLV";
     private RecyclerView mCharacterRecycler;
     private RecyclerView mMonsterRecycler;
+    private BucketRecyclerAdapter mCharacterAdatper;
+    private BucketRecyclerAdapter mMonsterAdapter;
     private ImageButton  mAddButton;
     private ImageButton mRemoveButton;
+    private OnBucketListActionListener mActionListener;
 
     public BucketListView(Context context) {
         super(context);
@@ -34,7 +40,25 @@ public class BucketListView extends ConstraintLayout {
         init();
     }
 
+    public void setActionListener(OnBucketListActionListener listener) {
+        mActionListener = listener;
+    }
+
+    public OnBucketListActionListener getActionListener() {
+        return mActionListener;
+    }
+
+    public void update() {
+        mCharacterAdatper.mItems = new ArrayList<>(Persist.getAllCharacters("demo"));
+        mMonsterAdapter.mItems = new ArrayList<>(Persist.getAllMonsters());
+        mCharacterAdatper.notifyDataSetChanged();
+        mMonsterAdapter.notifyDataSetChanged();
+    }
+
     private void init() {
+        // Set default callback mechanism
+        mActionListener = null;
+
         // Set background.
         setBackgroundResource(R.drawable.drawer_background);
         // inflate the real view, all that jazz.
@@ -45,19 +69,31 @@ public class BucketListView extends ConstraintLayout {
         mRemoveButton = (ImageButton) getViewById(R.id.bucket_remove_button);
 
         // assign adapters to the recyclers.
-        final BucketRecyclerAdapter characterAdapter = new BucketRecyclerAdapter(Persist.getAllCharacters(""));
-        final BucketRecyclerAdapter monsterAdapter = new BucketRecyclerAdapter(Persist.getAllMonsters(), false);
+        mCharacterAdatper = new BucketRecyclerAdapter(Persist.getAllCharacters("demo"), new BucketRecyclerAdapter.OnSubmitCharacterListener() {
+            @Override
+            public boolean onSubmitCharacterItem(CharacterItem item) {
+                if (mActionListener != null)
+                    mActionListener.onAddItemToFight(item, false);
+                return true;
+            }
+        });
+        mMonsterAdapter = new BucketRecyclerAdapter(Persist.getAllMonsters(), new BucketRecyclerAdapter.OnSubmitCharacterListener() {
+            @Override
+            public boolean onSubmitCharacterItem(CharacterItem item) {
+                if (mActionListener != null)
+                    mActionListener.onAddItemToFight(item, true);
+                return false;
+            }
+        });
 
-        mCharacterRecycler.setAdapter(characterAdapter);
-        mMonsterRecycler.setAdapter(monsterAdapter);
+        mCharacterRecycler.setAdapter(mCharacterAdatper);
+        mMonsterRecycler.setAdapter(mMonsterAdapter);
 
         // set on click listeners for the buttons, for sanity.
         mAddButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(LTAG, "Add button clicked.");
-                Log.d(LTAG, "There are " + characterAdapter.getItemCount() + " items in the character adapter");
-                Log.d(LTAG, "There are " + monsterAdapter.getItemCount() + " items in the monster adapter");
 
             }
         });
@@ -65,25 +101,20 @@ public class BucketListView extends ConstraintLayout {
             @Override
             public void onClick(View view) {
                 Log.d(LTAG, "Remove Button clicked");
-                String characterRecyclerSize = "(" + mCharacterRecycler.getWidth() + ", " + mCharacterRecycler.getHeight() + ")";
-                String monsterRecyclerSize = "(" + mMonsterRecycler.getWidth() + ", " + mMonsterRecycler.getHeight() + ")";
-                Log.d(LTAG, "character recycler size: " + characterRecyclerSize);
-                Log.d(LTAG, "monster recycler size: " + monsterRecyclerSize);
             }
         });
 
         // notify recyclers of content.
-        characterAdapter.notifyDataSetChanged();
-        monsterAdapter.notifyDataSetChanged();
+        mCharacterAdatper.notifyDataSetChanged();
+        mMonsterAdapter.notifyDataSetChanged();
 
         // set up swipe stuff.
-        SwipeController swipeController = new SwipeController(mCharacterRecycler);
+        SwipeController swipeController = new SwipeController(this, mCharacterRecycler);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(mCharacterRecycler);
 
-        itemTouchHelper = new ItemTouchHelper(new SwipeController(mMonsterRecycler, false));
+        itemTouchHelper = new ItemTouchHelper(new SwipeController(this, mMonsterRecycler, false));
         itemTouchHelper.attachToRecyclerView(mMonsterRecycler);
-
     }
 }
 

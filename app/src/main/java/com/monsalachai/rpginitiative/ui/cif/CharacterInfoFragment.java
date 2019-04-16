@@ -1,4 +1,4 @@
-package com.monsalachai.rpginitiative;
+package com.monsalachai.rpginitiative.ui.cif;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -9,11 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.monsalachai.rpginitiative.CharacterViewModel;
+import com.monsalachai.rpginitiative.R;
 import com.monsalachai.rpginitiative.model.CharacterItem;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     private int mColumnCount = 1;
 
     private List<CharacterItem> mItems;
-    private MyCharacterInfoRecyclerViewAdapter mAdapter;
+    private CharacterInfoRecyclerViewAdapter mAdapter;
     private CharacterViewModel mViewModel;
 
     /**
@@ -92,9 +95,15 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            mAdapter = new MyCharacterInfoRecyclerViewAdapter(mItems, this);
+            mAdapter = new CharacterInfoRecyclerViewAdapter(mItems, this);
             recyclerView.setAdapter(mAdapter);
+
+            // Initialize the SwipeController and attach it to the recycler view.
+            SwipeController sc = new SwipeController(this);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(sc);
+            itemTouchHelper.attachToRecyclerView((RecyclerView)view);
         }
+
         return view;
     }
 
@@ -113,11 +122,19 @@ public class CharacterInfoFragment extends Fragment implements OnListFragmentInt
     // be communicated back up to the calling Activity, then we will want it to implement this
     // method and then have it connected in the onAttach() method.
     @Override
-    public void onListFragmentInteraction(CharacterItem item) {
-        Log.d(LTAG, "onListFragmentInteraction " + item);
+    public void onListFragmentShortTouch(CharacterItem item) {
+        Log.d(LTAG, "onListFragmentShortTouch " + item);
         item.mHoldingTurn = !item.mHoldingTurn;
 
-        mViewModel.moveToBenchTeam(item);
+        // mViewModel.moveToBenchTeam(item); // don't bench on press (lol?)
         mAdapter.update();
+    }
+
+    @Override
+    public void onListFragmentSwipe(CharacterItem item) {
+        // Check if item is a monster item (if so, just remove it from data.)
+        Log.d(LTAG, "Removed: " + item.toString() + " from the fight bench");
+        mViewModel.moveToBenchTeam(item);
+        mAdapter.removeItem(item);
     }
 }

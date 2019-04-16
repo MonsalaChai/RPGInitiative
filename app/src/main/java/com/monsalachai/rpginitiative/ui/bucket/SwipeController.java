@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
+
+import com.monsalachai.rpginitiative.MainActivity;
 import com.monsalachai.rpginitiative.persist.Persist;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.*; // for LEFT, RIGHT.
@@ -12,25 +14,28 @@ public class SwipeController extends ItemTouchHelper.Callback {
     protected static final String LTAG = "BLSC";
 
     protected RecyclerView mRecycler;
+    protected BucketListView mBucketListView;
     protected boolean mRemoveOnSwipe;
 
     // This is a bit unideal, but one of the callbacks (onSwiped) needs access to
     // the recycler view (and its adapter)
-    public SwipeController(RecyclerView recycler) {
+    public SwipeController(BucketListView blv, RecyclerView recycler) {
         super();
         mRecycler = recycler;
         mRemoveOnSwipe = true;
+        mBucketListView = blv;
     }
 
-    public SwipeController(RecyclerView recycler, boolean removeOnSwipe) {
+    public SwipeController(BucketListView blv, RecyclerView recycler, boolean removeOnSwipe) {
         super();
+        mBucketListView = blv;
         mRecycler = recycler;
         mRemoveOnSwipe = removeOnSwipe;
     }
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        return makeMovementFlags(0, LEFT | RIGHT);
+        return makeMovementFlags(0, RIGHT); // Allows the user to drag ViewHolders to the right.
     }
 
     @Override
@@ -41,18 +46,26 @@ public class SwipeController extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         BucketRecyclerAdapter.ViewHolder vh = (BucketRecyclerAdapter.ViewHolder) viewHolder;
-        Log.d(LTAG, "View Holder containing '" + vh.mCharacterItem.mCharacterName + "' got swiped: " + ((direction == 8) ? "RIGHT" : "LEFT"));
 
         // on swipe (right): add item to Active area (via persist)
-        vh.mCharacterItem.mInitiative = 0;   // set to 0, just in case.
-        Persist.markActive(vh.mCharacterItem);
-        // and remove from adapter if necessary.
-        if (mRemoveOnSwipe) {
-            getRecyclerAdapter().mItems.remove(vh.mCharacterItem);
-            getRecyclerAdapter().notifyDataSetChanged();
+        vh.mCharacterItem.mInitiative = 0;   // Reset initiative score.
+
+        // Notify callback of data transition.
+        if (mBucketListView.getActionListener() != null) {
+            // The last parameter is a bit hacky, but the only reason to not remove on swipe is if
+            // the item is a monster.
+            mBucketListView.getActionListener().onAddItemToFight(vh.mCharacterItem, !mRemoveOnSwipe);
         }
 
+        // and remove from adapter if necessary.
+        if (mRemoveOnSwipe)
+            getRecyclerAdapter().mItems.remove(vh.mCharacterItem);
+
+        // Update the adapter, in the event an object is removed the cards are rearranged correctly
+        // in the event it wasnt, then the card is restored to its default position.
+        getRecyclerAdapter().notifyDataSetChanged();
     }
+
 
     protected BucketRecyclerAdapter getRecyclerAdapter() {
         return (BucketRecyclerAdapter) mRecycler.getAdapter();

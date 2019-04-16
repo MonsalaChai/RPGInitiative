@@ -16,25 +16,27 @@
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.05"
+        tools:listitem="@layout/view_bucket_tile" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4"/>
+        app:layout_constraintGuide_percent="0.4" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_monsters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:paddingBottom="5dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/bucket_add_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.025" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
+        app:layout_constraintVertical_bias="0.025"
+        tools:listitem="@layout/view_bucket_tile"/>
 
 
     <ImageButton
@@ -43,7 +45,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ic_add_black_24dp"
         android:layout_margin="8dp"
-
+        android:paddingTop="5dp"
+        android:contentDescription="@string/describe_bucket_add_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -53,6 +56,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ic_clear_black_24dp"
         android:layout_margin="8dp"
+        android:contentDescription="@string/describe_bucket_remove_button"
         app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/bucket_add_button"

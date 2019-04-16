@@ -22,9 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BucketRecyclerAdapter extends RecyclerView.Adapter<BucketRecyclerAdapter.ViewHolder> {
+    interface OnSubmitCharacterListener {
+        // Called when submitting a character for the fight team.
+        // A return of false indicates that the item should not be removed
+        // from the adapter's data list, a return of true indicates that it should be.
+        boolean onSubmitCharacterItem(CharacterItem item);
+    }
+
+
     final static String LTAG = "BRA";
     protected List<CharacterItem> mItems;
-    protected boolean mRemoveOnSubmit;
+    protected OnSubmitCharacterListener mSubmitListener;
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
         final static String LTAG = "BRAVH";
@@ -54,12 +63,16 @@ public class BucketRecyclerAdapter extends RecyclerView.Adapter<BucketRecyclerAd
 
     public BucketRecyclerAdapter(List<CharacterItem> items) {
         mItems = new ArrayList<>(items);
-        mRemoveOnSubmit = true;
+        mSubmitListener = null;
     }
 
-    public BucketRecyclerAdapter(List<CharacterItem> items, boolean removeOnSubmit) {
+    public BucketRecyclerAdapter(List<CharacterItem> items, OnSubmitCharacterListener listener) {
         mItems = new ArrayList<>(items);
-        mRemoveOnSubmit = removeOnSubmit;
+        mSubmitListener = listener;
+    }
+
+    public void setSubmitListener(OnSubmitCharacterListener listener) {
+        mSubmitListener = listener;
     }
 
     @NonNull
@@ -85,17 +98,15 @@ public class BucketRecyclerAdapter extends RecyclerView.Adapter<BucketRecyclerAd
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Log.d(vh.LTAG, "view with name: " + vh.mNameView.getText().toString() +
-                                        " submitted initiative: " + ((EditText) v.findViewById(R.id.edit_text)).getText().toString());
 
                                 int initiative = Integer.parseInt(((EditText) v.findViewById(R.id.edit_text)).getText().toString());
                                 vh.mCharacterItem.mInitiative = initiative;
 
-                                // Update the persistance table
-                                Persist.markActive(vh.mCharacterItem);
-
-                                // Remove from adapter's contents if necessary
-                                if (BucketRecyclerAdapter.this.mRemoveOnSubmit) {
+                                boolean result = false;
+                                if (mSubmitListener != null) {
+                                    result = mSubmitListener.onSubmitCharacterItem(vh.mCharacterItem);
+                                }
+                                if (result) {
                                     BucketRecyclerAdapter.this.mItems.remove(vh.mCharacterItem);
                                     BucketRecyclerAdapter.this.notifyDataSetChanged();
                                 }
