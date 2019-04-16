@@ -71,10 +71,6 @@ public class CharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<Chara
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String text = v.getText().toString();
                     holder.mItem.mInitiative = Integer.parseInt(text);
-                    // update internal sorting.
-                    Collections.sort(mValues);
-                    notifyDataSetChanged();
-
                 }
                 return false;
             }
