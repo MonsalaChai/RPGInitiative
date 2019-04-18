@@ -44,19 +44,23 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                // notify the character info fragment of data change.
-                Log.d("DrawerToggle", "Drawer closed");
-                //mViewModel.moveToFightTeam(mCharacters.get(0));
-            }
-        };
+        if (drawer != null) {
+            // If we're on a low-width device:
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+                @Override
+                public void onDrawerClosed(View view) {
+                    super.onDrawerClosed(view);
+                    // notify the character info fragment of data change.
+                    Log.d("DrawerToggle", "Drawer closed");
+                    //mViewModel.moveToFightTeam(mCharacters.get(0));
+                }
+            };
 
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+
+        }
 
         mCharacters = Persist.getAllCharacters("demo");
 
