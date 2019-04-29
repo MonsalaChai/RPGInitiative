@@ -75,9 +75,17 @@ public class CharacterInfoRecyclerViewAdapter extends RecyclerView.Adapter<Chara
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    String text = v.getText().toString();
-                    holder.mItem.mInitiative = Integer.parseInt(text);
+                    int initiative;
+                    try {
+                        String text = v.getText().toString();
+                        initiative = Integer.parseInt(text);
+                    } catch (NumberFormatException e) {
+                        initiative = 0;
+                    }
+
+                    holder.mItem.mInitiative = initiative;
                 }
+
                 return false;
             }
         });
