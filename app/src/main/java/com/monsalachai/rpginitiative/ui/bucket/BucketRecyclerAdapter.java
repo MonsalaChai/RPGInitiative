@@ -10,6 +10,7 @@ import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -95,14 +96,13 @@ public class BucketRecyclerAdapter extends RecyclerView.Adapter<BucketRecyclerAd
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
                                 int initiative;
                                 try {
                                     initiative = Integer.parseInt(((EditText) v.findViewById(R.id.edit_text)).getText().toString());
-                                }
-                                catch (NumberFormatException e) {
+                                } catch (NumberFormatException e) {
                                     initiative = 0;
                                 }
+
                                 vh.mCharacterItem.mInitiative = initiative;
 
                                 boolean result = false;
@@ -122,6 +122,7 @@ public class BucketRecyclerAdapter extends RecyclerView.Adapter<BucketRecyclerAd
                             }
                         });
                 AlertDialog ad = builder.create();
+                ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 ad.show();
             }
         });
