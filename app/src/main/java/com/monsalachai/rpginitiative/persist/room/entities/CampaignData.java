@@ -1,36 +1,23 @@
 package com.monsalachai.rpginitiative.persist.room.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 @Entity
 public class CampaignData {
     @PrimaryKey(autoGenerate = true)
-    protected long uid;
-
-    @ColumnInfo(name="name")
+    protected long id;
     protected String name;
-
-    @ColumnInfo(name="dm_name")
     protected String dmName;
-
-    @ColumnInfo(name="created_on")
     protected long createdOnDate;
+    protected long encounterId;
 
-    @ColumnInfo(name="num_fights")
-    protected long numberOfFights;
-
-    public CampaignData() {
-        
+    public long getId() {
+        return id;
     }
 
-    public long getUid() {
-        return uid;
-    }
-
-    public void setUid(long uid) {
-        this.uid = uid;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -57,11 +44,13 @@ public class CampaignData {
         this.createdOnDate = createdOnDate;
     }
 
-    public long getNumberOfFights() {
-        return numberOfFights;
+    public long getEncounterId() {
+        return encounterId;
     }
 
-    public void setNumberOfFights(long numberOfFights) {
-        this.numberOfFights = numberOfFights;
+    public void setEncounterId(long encounterId) {
+        this.encounterId = encounterId;
     }
+
+
 }
