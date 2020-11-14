@@ -1,20 +1,18 @@
 package com.monsalachai.rpginitiative.persist.room;
 
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.RoomDatabase;
 
-import com.monsalachai.rpginitiative.persist.room.daos.Campaign;
-import com.monsalachai.rpginitiative.persist.room.daos.Fight;
+import com.monsalachai.rpginitiative.persist.room.daos.CampaignDao;
 import com.monsalachai.rpginitiative.persist.room.entities.CampaignData;
-import com.monsalachai.rpginitiative.persist.room.entities.FightData;
-import com.monsalachai.rpginitiative.persist.room.entities.Monster;
+import com.monsalachai.rpginitiative.persist.room.entities.CampaignMemberData;
+import com.monsalachai.rpginitiative.persist.room.entities.CharacterData;
+import com.monsalachai.rpginitiative.persist.room.entities.EncounterCombatantData;
+import com.monsalachai.rpginitiative.persist.room.entities.EncounterData;
 
-@android.arch.persistence.room.Database(entities = {CampaignData.class, Monster.class,
-        com.monsalachai.rpginitiative.persist.room.entities.Character.class,
-        FightData.class},
-        version=1)
+
+@androidx.room.Database(entities = {CampaignData.class, CampaignMemberData.class,
+            CharacterData.class, EncounterCombatantData.class, EncounterData.class},
+        version=2)
 public abstract class Database extends RoomDatabase {
-    public abstract Campaign campaignDao();
-    public abstract com.monsalachai.rpginitiative.persist.room.daos.Monster monsterDao();
-    public abstract com.monsalachai.rpginitiative.persist.room.daos.Character characterDao();
-    public abstract Fight fightDao();
+    public abstract CampaignDao campaignDao();
 }

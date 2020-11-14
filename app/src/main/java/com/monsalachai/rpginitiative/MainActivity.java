@@ -1,8 +1,6 @@
 package com.monsalachai.rpginitiative;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,17 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.Persist;
-import com.monsalachai.rpginitiative.persist.room.entities.FightData;
-import com.monsalachai.rpginitiative.ui.bucket.BucketListView;
 import com.monsalachai.rpginitiative.ui.bucket.DrawerFragment;
-import com.monsalachai.rpginitiative.ui.bucket.OnBucketListActionListener;
 import com.monsalachai.rpginitiative.ui.cif.CharacterInfoFragment;
 
 
