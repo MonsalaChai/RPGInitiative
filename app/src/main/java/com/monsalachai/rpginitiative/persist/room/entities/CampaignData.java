@@ -1,9 +1,14 @@
 package com.monsalachai.rpginitiative.persist.room.entities;
 
 import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {@Index("encounterId")},
+        foreignKeys = {
+            @ForeignKey(entity = EncounterData.class, parentColumns = "id", childColumns = "encounterId")
+    })
 public class CampaignData {
     @PrimaryKey(autoGenerate = true)
     protected long id;

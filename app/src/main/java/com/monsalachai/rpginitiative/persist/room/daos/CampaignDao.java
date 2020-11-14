@@ -4,7 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.monsalachai.rpginitiative.persist.room.Models;
+import com.monsalachai.rpginitiative.persist.room.RelationalModels;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public abstract class CampaignDao {
 
     @Transaction
     @Query("SELECT * FROM campaigndata")
-    public abstract List<Models.Campaign> getAllCampaigns();
+    public abstract List<RelationalModels.Campaign> getAllCampaigns();
 }

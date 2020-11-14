@@ -16,6 +16,7 @@ public final class Persist {
         if (mDatabase == null) {
             mDatabase = Room.databaseBuilder(context, Database.class, "main_db")
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigrationFrom(1)
                     .build();
         }
     }

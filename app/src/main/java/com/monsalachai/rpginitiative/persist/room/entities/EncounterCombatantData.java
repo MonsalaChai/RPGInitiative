@@ -1,11 +1,17 @@
 package com.monsalachai.rpginitiative.persist.room.entities;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 /**
  * This entity represents a join table between EncounterData and CharacterData
  */
-@Entity(primaryKeys = {"encounterId", "characterId"})
+@Entity(primaryKeys = {"encounterId", "characterId"},
+        foreignKeys = {
+            @ForeignKey(entity = EncounterData.class, parentColumns = "id", childColumns = "encounterId"),
+            @ForeignKey(entity = CharacterData.class, parentColumns = "id", childColumns = "characterId")
+        })
 public class EncounterCombatantData {
     protected long encounterId;
     protected long characterId;
