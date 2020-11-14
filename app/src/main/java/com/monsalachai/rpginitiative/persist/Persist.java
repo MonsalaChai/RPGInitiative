@@ -1,22 +1,14 @@
 package com.monsalachai.rpginitiative.persist;
 
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.Context;
-import android.util.Log;
-
 import com.monsalachai.rpginitiative.model.CharacterItem;
 import com.monsalachai.rpginitiative.persist.room.Database;
-import com.monsalachai.rpginitiative.persist.room.daos.Fight;
 import com.monsalachai.rpginitiative.persist.room.entities.CampaignData;
-import com.monsalachai.rpginitiative.persist.room.entities.Character;
-import com.monsalachai.rpginitiative.persist.room.entities.FightData;
-import com.monsalachai.rpginitiative.persist.room.entities.Monster;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public final class Persist {
+
     protected static final String LTAG = "PERSIST";
     protected static Database mDatabase;
 
@@ -29,13 +21,6 @@ public final class Persist {
     }
 
     public static void add(CharacterItem item) {
-        if (mDatabase == null) return;
-        if (!item.isMonster()) return;
-
-        Monster m = new Monster();
-        m.setName(item.mCharacterName);
-        m.setUid(mDatabase.monsterDao().insert(m));
-        item.setPersistId(m.getUid());
     }
 
     public static void add(String campaignName, CharacterItem item) {
@@ -44,67 +29,27 @@ public final class Persist {
             add(item);
             return;
         }
-
-        Character c = new Character();
-        c.setName(item.mCharacterName);
-        c.setCampaignUid(getCampaignByName(campaignName).getUid());
-        c.setUid(mDatabase.characterDao().insert(c));
-        item.setPersistId(c.getUid());
     }
 
     public static void removeFromFight(String campaignName, CharacterItem item) {
         if (mDatabase == null) return;
-
-        // Find the fight data object.
-        Fight fightDao = mDatabase.fightDao();
-
-        FightData row = fightDao.findObject(getCampaignByName(campaignName).getUid(), item.getFightId());
-        if (row != null) {
-            // remove from fight data table.
-            fightDao.delete(row);
-            item.setFightId(0);
-        }
     }
 
     public static List<CharacterItem> loadAllCombatants(String campaignName) {
         // Load a character item for every entry in FightData that matches specified campaign.
         if (mDatabase == null) return null;
-
-        CampaignData campaignData = getCampaignByName(campaignName);
-        List<FightData> rows = mDatabase.fightDao().getByCampaignId(campaignData.getUid());
-        LinkedList<CharacterItem> items = new LinkedList<>();
-
-        for (FightData row : rows) {
-            // Load from the appropriate character / monster table.
-            CharacterItem item = new CharacterItem();
-            item.setPersistId(row.getCharacterId());
-            item.setFightId(row.getUid());
-            item.mInitiative = row.getInitiative();
-
-            Monster m = null;
-            if (row.isMonster()) {
-                item.setIsMonster(true);
-                m = mDatabase.monsterDao().getById(item.getPersistId());
-            }
-            else {
-                m = mDatabase.characterDao().getById(item.getPersistId());
-            }
-            item.mCharacterName = m.getName();
-
-            items.add(item);
-            Log.d(LTAG, "Loaded combatant: " + item);
-        }
-
-        return items;
+        return null;
     }
 
     public static List<CharacterItem> loadNonCombatants(String campaignName) {
-        return loadNonCombatants(campaignName, loadAllCombatants(campaignName));
+        return null; //return loadNonCombatants(campaignName, loadAllCombatants(campaignName));
     }
 
     public static List<CharacterItem> loadNonCombatants(String campaignName, List<CharacterItem> combatantSet) {
         if (mDatabase == null) return null;
         // Create an id-only list.
+        return null;
+        /*
         ArrayList<Long> idList = new ArrayList<>();
         for (CharacterItem item : combatantSet) idList.add(item.getPersistId());
 
@@ -121,11 +66,14 @@ public final class Persist {
         }
 
         return items;
+        */
     }
 
     public static void addToFight(String campaignName, CharacterItem item) {
         if (mDatabase == null) return;
         if (item.getFightId() != 0) return; // already in fight.
+
+        /*
         long cuid = getCampaignByName(campaignName).getUid();
 
         FightData fd = new FightData();
@@ -136,10 +84,12 @@ public final class Persist {
         fd.setMonster(item.isMonster());
         fd.setUid(mDatabase.fightDao().insert(fd));
         item.setFightId(fd.getUid());
+        */
     }
 
     public static List<CharacterItem> getAllCharacters(String campaignName) {
         // find campaign id by name.
+        /*
         CampaignData cd = mDatabase.campaignDao().getByName(campaignName);
         if (cd == null) {
             cd = new CampaignData();
@@ -158,9 +108,12 @@ public final class Persist {
         }
 
         return chitems;
+        */
+        return null;
     }
 
     public static List<CharacterItem> getAllMonsters(){
+        /*
         List<Monster> monsters = mDatabase.monsterDao().getAllMonsters();
         ArrayList<CharacterItem> items = new ArrayList<>();
         for (Monster monster : monsters) {
@@ -169,12 +122,15 @@ public final class Persist {
             items.add(new CharacterItem(monster.getName(), 0));
         }
         return items;
-
+        */
+        return null;
     }
 
     public static List<CharacterItem> getActiveMonsters(String campaign_name) {
         // load the fight table, filter entries by campaign
         // look for non-character rows.
+        return null;
+        /*
         ArrayList<CharacterItem> items = new ArrayList<>();
 
         for (int x = 0; x < 5; x++) {
@@ -182,9 +138,12 @@ public final class Persist {
         }
 
         return items;
+        */
     }
 
     public static void populate(String campaignName) {
+        return;
+        /*
         CampaignData cd = mDatabase.campaignDao().getByName(campaignName);
         if (cd == null) {
             cd = new CampaignData();
@@ -229,9 +188,11 @@ public final class Persist {
         else {
             Log.d(LTAG, "Table not empty.");
         }
+        */
     }
 
     public static void clear(String campaignName) {
+        /*
         CampaignData cd = mDatabase.campaignDao().getByName(campaignName);
         List<Character> characters = mDatabase.characterDao().getByCampaign(cd.getUid());
 
@@ -246,12 +207,10 @@ public final class Persist {
             mDatabase.monsterDao().delete(monster);
         }
         Log.d(LTAG, "Deleted " + monsters.size() + " monster from the monster table");
+        */
     }
 
     public static void markActive(CharacterItem item) {
-        // Called by bucket list view when an item is being submitted
-        // to the active table.
-        Log.d(LTAG, "Marking item: " + item.mCharacterName + " as active, with initiative: " + item.mInitiative);
     }
 
     public static void markInactive(CharacterItem item) {
@@ -260,7 +219,7 @@ public final class Persist {
     }
 
     public static boolean confirmUnique(String campaign, String name, boolean isMonster) {
-        if (mDatabase == null) return false;
+        /*if (mDatabase == null) return false;
         if (isMonster) {
             Monster m = mDatabase.monsterDao().getByName(name);
             return (m == null);
@@ -270,9 +229,12 @@ public final class Persist {
             Character c = mDatabase.characterDao().getByName(cuid, name);
             return (c == null);
         }
+        */
+        return false;
     }
 
     private static CampaignData getCampaignByName(String name) {
+        /*
         if (mDatabase == null) return null;
         CampaignData cd = mDatabase.campaignDao().getByName(name);
         if (cd == null) {
@@ -281,5 +243,7 @@ public final class Persist {
             cd.setUid(mDatabase.campaignDao().insert(cd));
         }
         return cd;
+        */
+        return null;
     }
 }
